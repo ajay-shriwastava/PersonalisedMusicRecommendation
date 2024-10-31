@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} User Preferences {% endblock %}
+
+{% block content %}
+
+<form method="post">
+    <div class="form-group">
+        <label for="user_id">User Id:</label>
+        <input type="text" name="user_id"
+               placeholder="Post user_id" class="form-control"
+               value="{{ request.form['user_id'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="user_tracks">Rate Tracks:</label>
+        <input type="text" name="user_tracks"
+               placeholder="Post user_tracks" class="form-control"
+               value="{{ request.form['user_tracks'] }}"></input>
+    </div>
+    <div class="form-group">
+        <label for="location">Select Location:</label>
+        <textarea name="location" placeholder="Post location"
+                  class="form-control">{{ request.form['location'] }}</textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+{% endblock %}

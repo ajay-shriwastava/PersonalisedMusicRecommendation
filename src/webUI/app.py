@@ -1,33 +1,28 @@
-import sqlite3
+import db_cmds as db
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
-def get_db_connection():
-    conn = sqlite3.connect('sqlite/database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def get_post(post_id):
-    conn = get_db_connection()
-    post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
-    conn.close()
-    if post is None:
-        abort(404)
-    return post
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CDSCOHORT7GROUP7'
 
 @app.route('/')
 def index():
-    conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM posts').fetchall()
-    conn.close()
-    return render_template('index.html', posts=posts)
+    users = db.get_all_users()
+    posts = db.get_all_posts()
+    top_tracks = db.get_top_tracks()
+    return render_template('index.html', posts=posts, top_tracks=top_tracks, users=users)
+
+@app.route('/user/<int:user_id>')
+def getUser(user_id):
+    user = db.get_user(user_id)
+    if user is None:
+        abort(404)
+    return render_template('user.html', user=user)
 
 @app.route('/<int:post_id>')
 def post(post_id):
-    post = get_post(post_id)
+    post = db.get_post(post_id)
     return render_template('post.html', post=post)
 
 @app.route('/create', methods=('GET', 'POST'))
@@ -35,41 +30,74 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-
         if not title:
             flash('Title is required!')
         else:
-            conn = get_db_connection()
-            conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)', (title, content))
-            conn.commit()
-            conn.close()
+            db.insertPost(title, content)
             return redirect(url_for('index'))
     return render_template('create.html')
 
+
+@app.route('/prefer', methods=('GET', 'POST'))
+def prefer():
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        tracks = request.form['user_tracks']
+        location = request.form['location']
+        if not tracks:
+            flash('Track selection is required!')
+        if not location:
+            flash('Location selection is required!')
+        else:
+            db.insertUser(user_id, tracks, location)
+            return redirect(url_for('index'))
+    return render_template('settings.html')
+
+
+@app.route('/user/<int:user_id>/edit', methods=('GET', 'POST'))
+def editUser(user_id):
+    user = db.get_user(user_id)
+    userPref = db.getPreferences(user_id)
+    print("User Preference", userPref)
+    if request.method == 'POST':
+        tracks = request.form['user_tracks']
+        location = request.form['location']
+        if not tracks:
+            flash('Track selection is required!')
+        if not location:
+            flash('Location selection is required!')
+        else:
+            db.editUser(user_id, tracks, location)
+            return redirect(url_for('index'))
+    return render_template('editUser.html', user=user, userPref=userPref)
+
+
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
-    post = get_post(id)
+    post = db.get_post(id)
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-
         if not title:
             flash('Title is required!')
         else:
-            conn = get_db_connection()
-            conn.execute('UPDATE posts SET title = ?, content = ? WHERE id = ?',
-                         (title, content, id))
-            conn.commit()
-            conn.close()
+            db.editPost(title, content, id)
             return redirect(url_for('index'))
     return render_template('edit.html', post=post)
 
+@app.route('/user/<int:user_id>/delete', methods=('POST',))
+def deleteUser(user_id):
+    db.deleteUser(user_id)
+    flash('"{}" was successfully deleted!'.format(user_id))
+    return redirect(url_for('index'))
+
 @app.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
-    post = get_post(id)
-    conn = get_db_connection()
-    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
+    post = db.get_post(id)
+    db.deletePost(id)
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
