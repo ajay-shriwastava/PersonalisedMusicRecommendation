@@ -5,9 +5,12 @@ from werkzeug.exceptions import abort
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CDSCOHORT7GROUP7'
+session_user_id = None
 
-@app.route('/')
+@app.route('/', methods=('GET', 'POST'))
 def index():
+    if request.method == 'POST':
+        session_user_id = request.form['session_user_id']
     users = db.get_all_users()
     posts = db.get_all_posts()
     top_tracks = db.get_top_tracks()
@@ -38,8 +41,8 @@ def create():
     return render_template('create.html')
 
 
-@app.route('/prefer', methods=('GET', 'POST'))
-def prefer():
+@app.route('/createUser', methods=('GET', 'POST'))
+def createUser():
     if request.method == 'POST':
         user_id = request.form['user_id']
         tracks = request.form['user_tracks']
@@ -51,7 +54,7 @@ def prefer():
         else:
             db.insertUser(user_id, tracks, location)
             return redirect(url_for('index'))
-    return render_template('settings.html')
+    return render_template('createUser.html')
 
 
 @app.route('/user/<int:user_id>/edit', methods=('GET', 'POST'))
@@ -71,6 +74,12 @@ def editUser(user_id):
             return redirect(url_for('index'))
     return render_template('editUser.html', user=user, userPref=userPref)
 
+@app.route('/settings', methods=('GET', 'POST'))
+def settings():
+    if session_user_id is None:
+        flash('User selection is required!')
+        return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):

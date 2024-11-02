@@ -6,7 +6,8 @@
 
 
 <form method="post">
-    <h2>Edit User: "{{ user['user_id'] }}" </h2>
+    <h2>Select Your Preferences </h2>
+    <h6>User: {{ user['user_id'] }} </h6>
     <div class="form-group">
         <label for="user_tracks">Rate Tracks:</label>
         <input type="text" name="user_tracks"
@@ -26,7 +27,7 @@
 <hr>
 
 <form action="{{ url_for('deleteUser', user_id=user['user_id']) }}" method="POST">
-    <input type="submit" value="Delete Post"
+    <input type="submit" value="Delete User"
             class="btn btn-danger btn-sm"
             onclick="return confirm('Are you sure you want to delete this User?')">
 </form>
