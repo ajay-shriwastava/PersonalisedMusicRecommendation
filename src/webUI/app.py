@@ -5,16 +5,19 @@ from werkzeug.exceptions import abort
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CDSCOHORT7GROUP7'
-session_user_id = None
+DEFAULT_SESSION_USER_ID = "35653693"
+session_user_id = DEFAULT_SESSION_USER_ID
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
     if request.method == 'POST':
         session_user_id = request.form['session_user_id']
+    else:
+        session_user_id = DEFAULT_SESSION_USER_ID
     users = db.get_all_users()
     posts = db.get_all_posts()
     top_tracks = db.get_top_tracks()
-    return render_template('index.html', posts=posts, top_tracks=top_tracks, users=users)
+    return render_template('index.html', session_user_id=session_user_id, top_tracks=top_tracks, users=users)
 
 @app.route('/user/<int:user_id>')
 def getUser(user_id):
@@ -22,24 +25,6 @@ def getUser(user_id):
     if user is None:
         abort(404)
     return render_template('user.html', user=user)
-
-@app.route('/<int:post_id>')
-def post(post_id):
-    post = db.get_post(post_id)
-    return render_template('post.html', post=post)
-
-@app.route('/create', methods=('GET', 'POST'))
-def create():
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        if not title:
-            flash('Title is required!')
-        else:
-            db.insertPost(title, content)
-            return redirect(url_for('index'))
-    return render_template('create.html')
-
 
 @app.route('/createUser', methods=('GET', 'POST'))
 def createUser():
@@ -74,37 +59,10 @@ def editUser(user_id):
             return redirect(url_for('index'))
     return render_template('editUser.html', user=user, userPref=userPref)
 
-@app.route('/settings', methods=('GET', 'POST'))
-def settings():
-    if session_user_id is None:
-        flash('User selection is required!')
-        return redirect(url_for('index'))
-    return redirect(url_for('index'))
-
-@app.route('/<int:id>/edit', methods=('GET', 'POST'))
-def edit(id):
-    post = db.get_post(id)
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        if not title:
-            flash('Title is required!')
-        else:
-            db.editPost(title, content, id)
-            return redirect(url_for('index'))
-    return render_template('edit.html', post=post)
-
 @app.route('/user/<int:user_id>/delete', methods=('POST',))
 def deleteUser(user_id):
     db.deleteUser(user_id)
     flash('"{}" was successfully deleted!'.format(user_id))
-    return redirect(url_for('index'))
-
-@app.route('/<int:id>/delete', methods=('POST',))
-def delete(id):
-    post = db.get_post(id)
-    db.deletePost(id)
-    flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
 
 @app.route('/about')

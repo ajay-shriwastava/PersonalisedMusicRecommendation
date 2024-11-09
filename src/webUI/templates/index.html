@@ -3,32 +3,40 @@
 {% block title %} Music Recommendation {% endblock %}
 
 {% block content %}
-    <h2>Welcome to Personalized Music Recommendations System </h2>
-    <h2>Select User </h2><hr>
+    <h2>Welcome to Personalized Music Recommendations System </h2><hr>
 
-    {% for user in users %}
-        <h2>User ID : {{ user['user_id'] }}</h2>
-        <a href="{{ url_for('editUser', user_id=user['user_id']) }}">
-            <span class="badge badge-warning">Preferences</span>
-        </a>
-        <hr>
-    {% endfor %}
-    <h2>Most Trending Tracks </h2><hr>
+    <form class="form-horizontal" method="POST" action="{{url_for('index')}}" role="form">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
+        <span class="caret"></span></button>
+            <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenu3">
+                {% for user in users %}
+                    <button name = "session_user_id" value = "{{ user['user_id'] }}" class="dropdown-item text-right " type="submit">{{ user['user_id'] }}</button>
+                {% endfor %}
+            </div>
+    </div>
+    </form>
+    <hr>
+    <h4>Selected User ID : {{ session_user_id }}</h4>
+    <a href="{{ url_for('editUser', user_id=session_user_id) }}">
+        <span class="badge badge-warning">Preferences</span>
+    </a>
+    <hr>
+    <h4>Top 10 Personalized Music Recommendations for User : {{ session_user_id }}</h4><hr>
     {% for track in top_tracks %}
-        <h4>{{ track['track_title'] }} by {{track['artist_name'] }}</h4>
+        <h6>{{ track['track_title'] }} by {{track['artist_name'] }}</h6>
         <span class="badge badge-primary">Track Id : {{ track['track_Id'] }}</span>
         <span class="badge badge-primary">Tweet Count : {{ track['tweet_count'] }}</span>
         <span class="badge badge-primary">Artist Id : {{ track['artist_id'] }}</span>
         <hr>
     {% endfor %}
-    {% for post in posts %}
-        <a href="{{ url_for('post', post_id=post['id']) }}">
-            <h2>{{ post['title'] }}</h2>
-        </a>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
-        <a href="{{ url_for('edit', id=post['id']) }}">
-            <span class="badge badge-warning">Edit</span>
-        </a>
+    <hr>
+    <h4>Most Trending Tracks </h4><hr>
+    {% for track in top_tracks %}
+        <h6>{{ track['track_title'] }} by {{track['artist_name'] }}</h6>
+        <span class="badge badge-primary">Track Id : {{ track['track_Id'] }}</span>
+        <span class="badge badge-primary">Tweet Count : {{ track['tweet_count'] }}</span>
+        <span class="badge badge-primary">Artist Id : {{ track['artist_id'] }}</span>
         <hr>
     {% endfor %}
 {% endblock %}
