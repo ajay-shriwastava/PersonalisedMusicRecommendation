@@ -1,29 +1,83 @@
 {% extends 'base.html' %}
 
-{% block title %} User Preferences {% endblock %}
+{% block title %} Create User {% endblock %}
 
 {% block content %}
-
+<hr>
 <form method="post">
-    <div class="form-group">
-        <label for="user_id">User Id:</label>
-        <input type="text" name="user_id"
-               placeholder="Post user_id" class="form-control"
-               value="{{ request.form['user_id'] }}"></input>
+    <div class="form-group row">
+        <label for="user_id" class="col-sm-2 col-form-label">User Id:</label>
+        <div class="col-sm-10">
+            <input type="text" name="user_id"
+                   placeholder="Phone Number" class="form-control"
+                   value="{{ request.form['user_id'] }}"></input>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="user_tracks">Rate Tracks:</label>
-        <input type="text" name="user_tracks"
-               placeholder="Post user_tracks" class="form-control"
-               value="{{ request.form['user_tracks'] }}"></input>
+    <hr>
+
+    <div class="form-group row">
+        <label for="user_location" class="col-sm-2 col-form-label">Select Location:</label>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    New York
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    London
+                </label>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="location">Select Location:</label>
-        <textarea name="location" placeholder="Post location"
-                  class="form-control">{{ request.form['location'] }}</textarea>
+
+    <div class="form-group row">
+        <label for="user_location" class="col-sm-2 col-form-label">Select Language:</label>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    English
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Spanish
+                </label>
+            </div>
+        </div>
     </div>
+
+    <div class="form-group row">
+        <label for="user_location" class="col-sm-2 col-form-label">Favorite Genre:</label>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Rock
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Classical
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    POP
+                </label>
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
+
 </form>
 {% endblock %}

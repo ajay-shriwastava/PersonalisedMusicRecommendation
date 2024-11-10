@@ -3,7 +3,9 @@
 {% block title %} Music Recommendation {% endblock %}
 
 {% block content %}
-    <h2>Welcome to Personalized Music Recommendations System </h2><hr>
+    <div class="jumbotron jumbotron-fluid text-center">
+        <h2>Personalized Music Recommendations System </h2>
+    </div>
 
     <form class="form-horizontal" method="POST" action="{{url_for('index')}}" role="form">
     <div class="dropdown">
@@ -22,21 +24,51 @@
         <span class="badge badge-warning">Preferences</span>
     </a>
     <hr>
-    <h4>Top 10 Personalized Music Recommendations for User : {{ session_user_id }}</h4><hr>
-    {% for track in top_tracks %}
-        <h6>{{ track['track_title'] }} by {{track['artist_name'] }}</h6>
-        <span class="badge badge-primary">Track Id : {{ track['track_Id'] }}</span>
-        <span class="badge badge-primary">Tweet Count : {{ track['tweet_count'] }}</span>
-        <span class="badge badge-primary">Artist Id : {{ track['artist_id'] }}</span>
-        <hr>
-    {% endfor %}
+    <h4>Top Personalized Music Recommendations for User : {{ session_user_id }}</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Track Id</th>
+                <th>Track Title</th>
+                <th>Artist Name</th>
+                <th>Artist Id</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for track in top_tracks %}
+            <tr>
+                <td>{{ track['track_Id'] }}</td>
+                <td>{{ track['track_title'] }}</td>
+                <td>{{track['artist_name'] }}</td>
+                <td>{{ track['artist_id'] }}</td>
+                <td>0.75</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     <hr>
-    <h4>Most Trending Tracks </h4><hr>
-    {% for track in top_tracks %}
-        <h6>{{ track['track_title'] }} by {{track['artist_name'] }}</h6>
-        <span class="badge badge-primary">Track Id : {{ track['track_Id'] }}</span>
-        <span class="badge badge-primary">Tweet Count : {{ track['tweet_count'] }}</span>
-        <span class="badge badge-primary">Artist Id : {{ track['artist_id'] }}</span>
-        <hr>
-    {% endfor %}
+    <h4>Most Trending Tracks </h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Track Id</th>
+                <th>Track Title</th>
+                <th>Artist Name</th>
+                <th>Artist Id</th>
+                <th>Tweet Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for track in top_tracks %}
+            <tr>
+                <td>{{ track['track_Id'] }}</td>
+                <td>{{ track['track_title'] }}</td>
+                <td>{{track['artist_name'] }}</td>
+                <td>{{ track['artist_id'] }}</td>
+                <td>{{ track['tweet_count'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
