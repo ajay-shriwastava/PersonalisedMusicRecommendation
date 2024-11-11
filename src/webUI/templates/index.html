@@ -19,12 +19,12 @@
     </div>
     </form>
     <hr>
-    <h4>Selected User ID : {{ session_user_id }}</h4>
-    <a href="{{ url_for('editUser', user_id=session_user_id) }}">
+    <h4>Selected User ID : {{ session_user['user_id'] }}</h4>
+    <a href="{{ url_for('editUser', user_id=session_user['user_id']) }}">
         <span class="badge badge-warning">Preferences</span>
     </a>
     <hr>
-    <h4>Top Personalized Music Recommendations for User : {{ session_user_id }}</h4>
+    <h4>Top Personalized Music Recommendations for User : {{ session_user['user_id'] }}</h4>
     <table class="table table-striped">
         <thead>
             <tr>

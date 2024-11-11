@@ -1,5 +1,6 @@
 import db_cmds as db
 from flask import Flask, render_template, request, url_for, flash, redirect
+import json
 from werkzeug.exceptions import abort
 
 
@@ -12,32 +13,23 @@ session_user_id = DEFAULT_SESSION_USER_ID
 def index():
     if request.method == 'POST':
         session_user_id = request.form['session_user_id']
+        session_user = db.get_user(session_user_id)
     else:
         session_user_id = DEFAULT_SESSION_USER_ID
+        session_user = db.get_user(session_user_id)
     users = db.get_all_users()
-    posts = db.get_all_posts()
     top_tracks = db.get_top_tracks()
-    return render_template('index.html', session_user_id=session_user_id, top_tracks=top_tracks, users=users)
-
-@app.route('/user/<int:user_id>')
-def getUser(user_id):
-    user = db.get_user(user_id)
-    if user is None:
-        abort(404)
-    return render_template('user.html', user=user)
+    return render_template('index.html', session_user=session_user, top_tracks=top_tracks, users=users)
 
 @app.route('/createUser', methods=('GET', 'POST'))
 def createUser():
     if request.method == 'POST':
         user_id = request.form['user_id']
-        tracks = request.form['user_tracks']
         location = request.form['location']
-        if not tracks:
-            flash('Track selection is required!')
         if not location:
             flash('Location selection is required!')
         else:
-            db.insertUser(user_id, tracks, location)
+            db.insertUser(user_id, location)
             return redirect(url_for('index'))
     return render_template('createUser.html')
 
@@ -45,19 +37,23 @@ def createUser():
 @app.route('/user/<int:user_id>/edit', methods=('GET', 'POST'))
 def editUser(user_id):
     user = db.get_user(user_id)
-    userPref = db.getPreferences(user_id)
-    print("User Preference", userPref)
     if request.method == 'POST':
-        tracks = request.form['user_tracks']
-        location = request.form['location']
+        tracks = request.form.getlist('user_tracks')
+        print("Type of tracks is", type(tracks), tracks)
         if not tracks:
             flash('Track selection is required!')
-        if not location:
-            flash('Location selection is required!')
         else:
-            db.editUser(user_id, tracks, location)
+            prefStr = user['preferences']
+            print("Existing Preference Dictionary", prefStr)
+            prefDict = {}
+            if prefStr:
+                prefDict = json.loads(prefStr)
+            prefDict['tracks'] = tracks
+            print("Tracks updated", prefDict)
+            new_pref_str = json.dumps(prefDict)
+            db.editUser(user_id, new_pref_str)
             return redirect(url_for('index'))
-    return render_template('editUser.html', user=user, userPref=userPref)
+    return render_template('editUser.html', user=user)
 
 @app.route('/user/<int:user_id>/delete', methods=('POST',))
 def deleteUser(user_id):

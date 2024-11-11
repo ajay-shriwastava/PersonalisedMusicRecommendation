@@ -7,12 +7,12 @@ The core problem addressed by this project is the enhancement of music recommend
 
 
 This project uses [Flask](https://flask.palletsprojects.com/en/stable/) to create the web application and 
-[bootstrap](https://getbootstrap.com/) for styling. Flask in turn uses [Jinja Templates](Jinja template engine) 
+[bootstrap](https://getbootstrap.com/) for styling. Flask in turn uses [Jinja Templates](https://jinja.palletsprojects.com/en/stable/) 
 to dynamically build HTML pages using python constructs. [SQLite](https://www.sqlite.org/) is used as a database 
 and [DB Browser for SQLite](https://sqlitebrowser.org/) is used as SQL Client.
 
 ##### Set up environment    
-$ Go to project root (e.g. cd ~/workspace/research/PersonalisedMusicRecommendation)    
+$ Go to project root (e.g. cd ~/workspace/research/PersonalisedMusicRecommendation/src/webUI)    
 $ Activate virtual environment. (e.g. workon iisc)     
 $ export FLASK_APP=app     
 $ export FLASK_ENV=development     
@@ -38,4 +38,4 @@ $ flask run -p 5001
 2.[Flask tutorial](https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3)   
 3.[Sqlite Database](https://www.sqlite.org/)    
 4.[Bootstrap w3School Docs](https://www.w3schools.com/bootstrap4/default.asp)    
-4.[Bootstrap Example](https://getbootstrap.com/2.0.4/examples/hero.html)
+5.[Bootstrap Example](https://getbootstrap.com/2.0.4/examples/hero.html)

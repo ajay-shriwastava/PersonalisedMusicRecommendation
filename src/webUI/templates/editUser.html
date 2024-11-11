@@ -6,19 +6,24 @@
 <hr>
 <form method="post">
     <h6>User: {{ user['user_id'] }} </h6>
+    <h6>User Tracks: {{ user['preferences'] }} </h6>
     <h4>Please select Your favorite tracks</h4>
 
     <div class="form-group row">
         <div class="col-sm-2">
             <label for="user_tracks">Adele:</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                {% if "Someone Like You" in user['preferences']['tracks'] %}
+                    <input class="form-check-input" type="checkbox" name="user_tracks" value="Someone Like You" id="flexCheckDefault">
+                {% else %}
+                    <input class="form-check-input" type="checkbox" name="user_tracks" value="Someone Like You" id="flexCheckDefault_C" checked>
+                {% endif %}
                 <label class="form-check-label" for="flexCheckDefault">
                     Someone Like You
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <input class="form-check-input" type="checkbox" name="user_tracks" value="Set Fire to the Rain" id="flexCheckChecked">
                 <label class="form-check-label" for="flexCheckChecked">
                     Set Fire to the Rain
                 </label>
