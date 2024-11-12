@@ -15,65 +15,52 @@
     </div>
     <hr>
 
+
     <div class="form-group row">
-        <label for="user_location" class="col-sm-2 col-form-label">Select Location:</label>
-        <div class="col-sm-2">
+
+        <label class="col-sm-2 col-form-label">Location:</label>
+        <div class="col-sm-4">
+        {% for location in locations_lookup %}
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    New York
+                <input class="form-check-input" type="checkbox" name="user_locations" value="{{ location }}" >
+                <label class="form-check-label" >
+                    {{ location }}
                 </label>
             </div>
+        {% endfor %}
+        </div>
+
+        <label class="col-sm-2 col-form-label">Language:</label>
+        <div class="col-sm-4">
+        {% for language in languages_lookup %}
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                <label class="form-check-label" for="flexCheckChecked">
-                    London
+                <input class="form-check-input" type="checkbox" name="user_languages" value="{{ language }}">
+                <label class="form-check-label" >
+                    {{ language }}
                 </label>
             </div>
+        {% endfor %}
+        </div>
+
+    </div>
+
+
+    <div class="form-group row"></div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Genre:</label>
+        <div class="col-sm-4">
+        {% for genre in genres_lookup %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="user_genres" value="{{ genre }}">
+                <label class="form-check-label" >
+                    {{ genre }}
+                </label>
+            </div>
+        {% endfor %}
         </div>
     </div>
 
-    <div class="form-group row">
-        <label for="user_location" class="col-sm-2 col-form-label">Select Language:</label>
-        <div class="col-sm-2">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    English
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                <label class="form-check-label" for="flexCheckChecked">
-                    Spanish
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="user_location" class="col-sm-2 col-form-label">Favorite Genre:</label>
-        <div class="col-sm-2">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Rock
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                <label class="form-check-label" for="flexCheckChecked">
-                    Classical
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                <label class="form-check-label" for="flexCheckChecked">
-                    POP
-                </label>
-            </div>
-        </div>
-    </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>

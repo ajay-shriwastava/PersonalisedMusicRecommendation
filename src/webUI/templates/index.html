@@ -20,6 +20,18 @@
     </form>
     <hr>
     <h4>Selected User ID : {{ session_user['user_id'] }}</h4>
+    {% if preferences['locations'] %}
+    <h6>Locations: {{ preferences['locations'] }} </h6>
+    {% endif %}
+    {% if preferences['languages'] %}
+    <h6>Languages: {{ preferences['languages'] }} </h6>
+    {% endif %}
+    {% if preferences['genres'] %}
+    <h6>Genres: {{ preferences['genres'] }} </h6>
+    {% endif %}
+    {% if preferences['tracks'] %}
+    <h6>Favorite Tracks: {{ preferences['tracks'] }} </h6>
+    {% endif %}
     <a href="{{ url_for('editUser', user_id=session_user['user_id']) }}">
         <span class="badge badge-warning">Preferences</span>
     </a>
