@@ -48,13 +48,13 @@
             </tr>
         </thead>
         <tbody>
-        {% for track in top_tracks %}
+        {% for index, row in reco_df.iterrows() %}
             <tr>
-                <td>{{ track['track_Id'] }}</td>
-                <td>{{ track['track_title'] }}</td>
-                <td>{{track['artist_name'] }}</td>
-                <td>{{ track['artist_id'] }}</td>
-                <td>0.75</td>
+                <td>{{ row['itemid'] }}</td>
+                <td>{{ row['track_title'] }}</td>
+                <td>{{ row['artist_name'] }}</td>
+                <td>{{ row['artist_id'] }}</td>
+                <td>{{'%0.2f'|format(row['similarity_with_Iu']|float)}}</td>
             </tr>
         {% endfor %}
         </tbody>

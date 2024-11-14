@@ -14,7 +14,7 @@ import pandas as pd
 class item2itemcfModel:
 
     def load_similarities(self, dataset_name, k=20):
-        base_dir = '/content/weights/item2item'
+        base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         similiraties_file = os.path.join(save_dir, 'similarities.npy')
         neighbors_file = os.path.join(save_dir, 'neighbors.npy')
@@ -24,7 +24,7 @@ class item2itemcfModel:
 
 
     def load_item_to_index(self, dataset_name):
-        base_dir = '/content/weights/item2item'
+        base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         item_to_index_file = os.path.join(save_dir, 'item_to_index.txt')
         item_to_index = {}
@@ -36,7 +36,7 @@ class item2itemcfModel:
         return item_to_index
 
     def load_unique_users(self, dataset_name):
-        base_dir = '/content/weights/item2item'
+        base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         unique_users_file = os.path.join(save_dir, 'unique_user_ids.txt')
         unique_users = []
@@ -46,7 +46,7 @@ class item2itemcfModel:
         return unique_users
 
     def load_ratings(self, dataset_name):
-        base_dir = '/content/input/item2item'
+        base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         ratings_file = os.path.join(save_dir, 'input.csv')
         ratings = pd.read_csv(ratings_file)

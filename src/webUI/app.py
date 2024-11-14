@@ -3,11 +3,12 @@ import json
 from werkzeug.exceptions import abort
 import db_cmds as db
 import lookup
+import itemitemcfmodel
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CDSCOHORT7GROUP7'
 
-DEFAULT_SESSION_USER_ID = "35653693"
+DEFAULT_SESSION_USER_ID = "17291429"
 session_user_id = DEFAULT_SESSION_USER_ID
 
 @app.route('/', methods=('GET', 'POST'))
@@ -24,8 +25,10 @@ def index(session_user_id=DEFAULT_SESSION_USER_ID):
         prefDict = json.loads(prefStr)
     users = db.get_all_users()
     top_tracks = db.get_top_tracks()
+    item2item = itemitemcfmodel.item2itemcfModel()
+    reco_df = item2item.topn_recommendation(float(session_user_id), 15)
     return render_template('index.html', session_user=session_user, preferences=prefDict, top_tracks=top_tracks,
-                           users=users)
+                           users=users, reco_df=reco_df)
 
 
 @app.route('/createUser', methods=('GET', 'POST'))
