@@ -14,6 +14,7 @@ import pandas as pd
 class item2itemcfModel:
 
     def load_similarities(self, dataset_name, k=20):
+        print("Loading Similarities from file")
         base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         similiraties_file = os.path.join(save_dir, 'similarities.npy')
@@ -24,6 +25,7 @@ class item2itemcfModel:
 
 
     def load_item_to_index(self, dataset_name):
+        print("Loading item to index from file")
         base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         item_to_index_file = os.path.join(save_dir, 'item_to_index.txt')
@@ -36,6 +38,7 @@ class item2itemcfModel:
         return item_to_index
 
     def load_unique_users(self, dataset_name):
+        print("Loading unique users from file")
         base_dir = 'static'
         save_dir = os.path.join(base_dir, dataset_name)
         unique_users_file = os.path.join(save_dir, 'unique_user_ids.txt')

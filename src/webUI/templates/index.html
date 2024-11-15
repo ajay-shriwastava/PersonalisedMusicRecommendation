@@ -44,7 +44,8 @@
                 <th>Track Title</th>
                 <th>Artist Name</th>
                 <th>Artist Id</th>
-                <th>Score</th>
+                <th>Rank</th>
+                <th>Similarity Score</th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +55,7 @@
                 <td>{{ row['track_title'] }}</td>
                 <td>{{ row['artist_name'] }}</td>
                 <td>{{ row['artist_id'] }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{'%0.2f'|format(row['similarity_with_Iu']|float)}}</td>
             </tr>
         {% endfor %}

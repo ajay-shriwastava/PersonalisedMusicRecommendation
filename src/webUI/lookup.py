@@ -1,3 +1,6 @@
+from flask_caching import Cache
+cache = Cache()
+
 locations_lookup = ["United States", "England", "France", "Brazil", "Germany", "Indonesia", "India"]
 languages_lookup = ["English", "French", "Spanish", "hawaiian", "German", "Hindi"]
 genres_lookup = ["Pop", "Rock", "Alternative", "Electronic", "Rap"]
@@ -19,4 +22,9 @@ tracks_lookup = [
         "tracks": [(4098232, "The One That Got Away")]
     }
 ]
+
+cache_config = {
+    'CACHE_TYPE': 'simple',
+    'CACHE_DEFAULT_TIMEOUT': 300
+}
 
