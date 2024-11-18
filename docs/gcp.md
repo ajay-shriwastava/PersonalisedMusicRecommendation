@@ -23,8 +23,8 @@ $  gcloud dataproc clusters create ${PHS_CLUSTER_NAME} \
    --properties=spark:spark.history.fs.logDirectory=gs://${BUCKET}/phs/*/spark-job-history
 Go to Data Proc Cluster : https://console.cloud.google.com/dataproc/clusters
 
-$ git clone https://github.com/GoogleCloudPlatform/devrel-demos.git
-$ cd devrel-demos/data-analytics/next-2022-workshop/dataproc-serverless
-Open citibike.py in the Cloud Shell Editor to browse the code.
-Click Open Terminal to return to the Cloud Shell terminal.
-$ git clone https://github.com/ajay-shriwastava/PersonalisedMusicRecommendation.git 
+$ git clone https://github.com/GoogleCloudPlatform/devrel-demos.git     
+$ cd devrel-demos/data-analytics/next-2022-workshop/dataproc-serverless     
+Open citibike.py in the Cloud Shell Editor to browse the code.     
+Click Open Terminal to return to the Cloud Shell terminal.     
+$ git clone https://github.com/ajay-shriwastava/PersonalisedMusicRecommendation.git      

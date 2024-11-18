@@ -38,6 +38,28 @@ def index(session_user_id=DEFAULT_SESSION_USER_ID):
     return render_template('index.html', session_user=session_user, preferences=prefDict, top_tracks=top_tracks,
                            users=users, reco_df=reco_df)
 
+@app.route('/collabFilter', methods=('GET', 'POST'))
+def collabFilter():
+    if request.method == 'POST':
+        session_user_id = request.form['session_user_id']
+    if not session_user_id:
+        session_user_id = DEFAULT_SESSION_USER_ID
+    session_user = db.get_user(session_user_id)
+    prefStr = session_user['preferences']
+    prefDict = {}
+    if prefStr:
+        prefDict = json.loads(prefStr)
+    users = db.get_all_users()
+    top_tracks = db.get_top_tracks()
+    item2item = cache.get("itemitemcfmodel")
+    print("Getting itemitemfcmodel from cache")
+    if not item2item:
+        print("Setting itemitemfcmodel to cache")
+        item2item = itemitemcfmodel.item2itemcfModel()
+        cache.set("itemitemcfmodel", item2item)
+    reco_df = item2item.topn_recommendation(float(session_user_id), 15)
+    return render_template('index.html', session_user=session_user, preferences=prefDict, top_tracks=top_tracks,
+                           users=users, reco_df=reco_df)
 
 @app.route('/createUser', methods=('GET', 'POST'))
 def createUser():
