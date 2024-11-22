@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import os
 
 
@@ -44,8 +42,7 @@ class ContentFilter:
         print("Here are some recommendations:")
         print(" ")
         print(self.genre_df.iloc[top_indices][['artist_name', 'track_title']])
-
-        return
+        return self.genre_df.iloc[top_indices][['artist_name', 'track_title']]
 
 
 conFilter = ContentFilter()

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %} Content Filtering {% endblock %}
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid text-center">
+        <h2>Personalized Music Recommendations System </h2>
+    </div>
+    <h4>Genres : </h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{column}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, row in genreDf.iterrows() %}
+            <tr>
+                {% for column in columns %}
+                <td>{{ row[column] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <form class="form-horizontal" method="POST" action="{{url_for('contentFilter')}}" role="form">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song Index
+        <span class="caret"></span></button>
+            <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenu3">
+                {% for song_index in range(0,12) %}
+                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ song_index }}</button>
+                {% endfor %}
+            </div>
+    </div>
+    </form>
+    <hr>
+    <h6>Selected Song Index: {{ song_index }} </h6>
+    <h4>Recommended Songs : </h4>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Track Id</th>
+                <th>Artist Name</th>
+                <th>Track Title</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, row in reco_songs.iterrows() %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ row['artist_name'] }}</td>
+                <td>{{ row['track_title'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+{% endblock %}

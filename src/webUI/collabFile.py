@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import warnings
 import os
 
@@ -64,9 +62,11 @@ class CollabFilter:
         print(np.argsort(cs_vector)[-1:0:-1][0:n_recommendations])
         return np.argsort(cs_vector)[-1:0:-1][0:n_recommendations]
 
-col_fil = CollabFilter()
+colabF = CollabFilter()
 song_index = 8
 rank = 4
 
-print(col_fil.track_df.iloc[song_index])
-print(col_fil.track_df.iloc[col_fil.cosine_similarity(song_index, rank)])
+print(type(colabF.track_df.iloc[song_index]))
+print(colabF.track_df.iloc[song_index])
+print(type(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)]))
+print(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)])

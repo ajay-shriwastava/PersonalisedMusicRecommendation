@@ -5,6 +5,8 @@ import db_cmds as db
 import lookup
 from lookup import cache
 import itemitemcfmodel
+import collabFile
+import contentFile
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CDSCOHORT7GROUP7'
@@ -28,8 +30,8 @@ def index(session_user_id=DEFAULT_SESSION_USER_ID):
         prefDict = json.loads(prefStr)
     users = db.get_all_users()
     top_tracks = db.get_top_tracks()
-    item2item = cache.get("itemitemcfmodel")
     print("Getting itemitemfcmodel from cache")
+    item2item = cache.get("itemitemcfmodel")
     if not item2item:
         print("Setting itemitemfcmodel to cache")
         item2item = itemitemcfmodel.item2itemcfModel()
@@ -39,27 +41,47 @@ def index(session_user_id=DEFAULT_SESSION_USER_ID):
                            users=users, reco_df=reco_df)
 
 @app.route('/collabFilter', methods=('GET', 'POST'))
-def collabFilter():
+def collabFilter(song_index=0):
+    sel_song =0
+    reco_songs=0
     if request.method == 'POST':
-        session_user_id = request.form['session_user_id']
-    if not session_user_id:
-        session_user_id = DEFAULT_SESSION_USER_ID
-    session_user = db.get_user(session_user_id)
-    prefStr = session_user['preferences']
-    prefDict = {}
-    if prefStr:
-        prefDict = json.loads(prefStr)
-    users = db.get_all_users()
-    top_tracks = db.get_top_tracks()
-    item2item = cache.get("itemitemcfmodel")
-    print("Getting itemitemfcmodel from cache")
-    if not item2item:
-        print("Setting itemitemfcmodel to cache")
-        item2item = itemitemcfmodel.item2itemcfModel()
-        cache.set("itemitemcfmodel", item2item)
-    reco_df = item2item.topn_recommendation(float(session_user_id), 15)
-    return render_template('index.html', session_user=session_user, preferences=prefDict, top_tracks=top_tracks,
-                           users=users, reco_df=reco_df)
+        song_index = request.form['song_index_id']
+    if not song_index:
+        song_index = 0
+    song_index = int(song_index)
+    colabF = cache.get("collabFilter")
+    if not colabF:
+        colabF = collabFile.CollabFilter()
+        cache.set("collabFilter", colabF)
+    sel_song = colabF.track_df.iloc[song_index]
+    reco_songs = colabF.track_df.iloc[colabF.cosine_similarity(song_index, 12)]
+    track_df = colabF.track_df
+    user_df = colabF.user_df
+    user_item_df = colabF.user_item_df
+    return render_template('collab_filter.html', sel_song=sel_song, reco_songs=reco_songs,
+                           track_df=track_df, user_df=user_df, user_item_df=user_item_df)
+
+
+@app.route('/contentFilter', methods=('GET', 'POST'))
+def contentFilter(song_index=6):
+    columns = ["Id", "artist_name", "track_title", "genre_rnb",	"genre_rap", "genre_electronic", "genre_rock",
+               "genre_newage", "genre_classical"]
+    reco_songs = 0
+    if request.method == 'POST':
+        song_index = request.form['song_index_id']
+    if not song_index:
+        song_index = 0
+    print("Song index obtained", song_index)
+    song_index = int(song_index)
+    conFilter = cache.get("conFilter")
+    if not conFilter:
+        conFilter = contentFile.ContentFilter()
+        cache.set("conFilter", conFilter)
+    reco_songs = conFilter.recommend_songs(song_index, n_recommendations = 10)
+    genreDf = conFilter.get_genres().head(10)
+    return render_template('contentFilter.html', genreDf=genreDf, song_index=song_index,
+                           columns=columns, reco_songs=reco_songs)
+
 
 @app.route('/createUser', methods=('GET', 'POST'))
 def createUser():
