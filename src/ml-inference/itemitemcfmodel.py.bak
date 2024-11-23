@@ -81,10 +81,8 @@ class item2itemcfModel:
             c.update(self.neighbors[title_index])
 
         c = list(c)
-        I_u_iid = [ self.item_to_index[iid] for iid in I_u]
         # 3. exclude from the set C all items in I_u.
-        #candidates = np.setdiff1d(c, I_u, assume_unique=True)
-        candidates = np.setdiff1d(c, I_u_iid, assume_unique=True)
+        candidates = np.setdiff1d(c, I_u, assume_unique=True)
 
         return I_u, candidates
 
@@ -120,7 +118,7 @@ class item2itemcfModel:
         ranked_candidates = sorted(mapping, key=lambda couple:couple[1], reverse=True)
         return ranked_candidates
 
-    def topn_recommendation(self, userid, N=20):
+    def topn_recommendation(self, userid, N=30):
         """
         Produce top-N recommendation for a given user
         :param userid : user for which we produce top-N recommendation
