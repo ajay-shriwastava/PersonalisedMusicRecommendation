@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %} Collaborative Filtering {% endblock %}
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid text-center">
+        <h2>Personalized Music Recommendations System </h2>
+    </div>
+    <h4>Tracks :</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Track Id</th>
+                <th>Artist Name</th>
+                <th>Track Title</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, row in track_df.iterrows() %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ row['artist_name'] }}</td>
+                <td>{{ row['track_title'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <h4>Users :</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>User Id</th>
+                <th>User Name</th>
+                <th>Favorite Tracks</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, row in user_df.iterrows() %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ row['user_name'] }}</td>
+                <td>{{ user_item_df.iloc[index-1].to_list() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <form class="form-horizontal" method="POST" action="{{url_for('collabFilter')}}" role="form">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song Index
+        <span class="caret"></span></button>
+            <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenu3">
+                {% for song_index in range(0,12) %}
+                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ song_index }}</button>
+                {% endfor %}
+            </div>
+    </div>
+    </form>
+    <hr>
+    <h6>Selected Song : {{ sel_song['track_title'] }} by {{ sel_song['artist_name'] }}</h6>
+    <h4>Recommended Songs : </h4>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Track Id</th>
+                <th>Artist Name</th>
+                <th>Track Title</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, row in reco_songs.iterrows() %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ row['artist_name'] }}</td>
+                <td>{{ row['track_title'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+{% endblock %}
