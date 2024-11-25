@@ -14,8 +14,7 @@ import pandas as pd
 class item2itemcfModel:
 
     def load_similarities(self, dataset_name, k=20):
-        print("Loading Similarities from file")
-        base_dir = 'static'
+        base_dir = '/content/weights/item2item'
         save_dir = os.path.join(base_dir, dataset_name)
         similiraties_file = os.path.join(save_dir, 'similarities.npy')
         neighbors_file = os.path.join(save_dir, 'neighbors.npy')
@@ -25,8 +24,7 @@ class item2itemcfModel:
 
 
     def load_item_to_index(self, dataset_name):
-        print("Loading item to index from file")
-        base_dir = 'static'
+        base_dir = '/content/weights/item2item'
         save_dir = os.path.join(base_dir, dataset_name)
         item_to_index_file = os.path.join(save_dir, 'item_to_index.txt')
         item_to_index = {}
@@ -38,8 +36,7 @@ class item2itemcfModel:
         return item_to_index
 
     def load_unique_users(self, dataset_name):
-        print("Loading unique users from file")
-        base_dir = 'static'
+        base_dir = '/content/weights/item2item'
         save_dir = os.path.join(base_dir, dataset_name)
         unique_users_file = os.path.join(save_dir, 'unique_user_ids.txt')
         unique_users = []
@@ -49,7 +46,7 @@ class item2itemcfModel:
         return unique_users
 
     def load_ratings(self, dataset_name):
-        base_dir = 'static'
+        base_dir = '/content/input/item2item'
         save_dir = os.path.join(base_dir, dataset_name)
         ratings_file = os.path.join(save_dir, 'input.csv')
         ratings = pd.read_csv(ratings_file)
@@ -84,10 +81,8 @@ class item2itemcfModel:
             c.update(self.neighbors[title_index])
 
         c = list(c)
-        I_u_iid = [ self.item_to_index[iid] for iid in I_u]
         # 3. exclude from the set C all items in I_u.
-        #candidates = np.setdiff1d(c, I_u, assume_unique=True)
-        candidates = np.setdiff1d(c, I_u_iid, assume_unique=True)
+        candidates = np.setdiff1d(c, I_u, assume_unique=True)
 
         return I_u, candidates
 
@@ -123,7 +118,7 @@ class item2itemcfModel:
         ranked_candidates = sorted(mapping, key=lambda couple:couple[1], reverse=True)
         return ranked_candidates
 
-    def topn_recommendation(self, userid, N=20):
+    def topn_recommendation(self, userid, N=30):
         """
         Produce top-N recommendation for a given user
         :param userid : user for which we produce top-N recommendation
