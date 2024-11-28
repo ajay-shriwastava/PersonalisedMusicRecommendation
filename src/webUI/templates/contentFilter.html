@@ -28,17 +28,17 @@
     <hr>
     <form class="form-horizontal" method="POST" action="{{url_for('contentFilter')}}" role="form">
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song Index
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song
         <span class="caret"></span></button>
             <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenu3">
-                {% for song_index in range(0,12) %}
-                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ song_index }}</button>
+                {% for song_index in range(0, 20) %}
+                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ genreDf.iloc[song_index]['track_title']}}</button>
                 {% endfor %}
             </div>
     </div>
     </form>
     <hr>
-    <h6>Selected Song Index: {{ song_index }} </h6>
+    <h6>Selected Song : {{ genreDf.iloc[song_index]['track_title'] }} </h6>
     <h4>Recommended Songs : </h4>
     <hr>
     <table class="table table-striped">

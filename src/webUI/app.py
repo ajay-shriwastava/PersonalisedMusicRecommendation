@@ -78,7 +78,7 @@ def contentFilter(song_index=6):
         conFilter = contentFile.ContentFilter()
         cache.set("conFilter", conFilter)
     reco_songs = conFilter.recommend_songs(song_index, n_recommendations = 10)
-    genreDf = conFilter.get_genres().head(10)
+    genreDf = conFilter.get_genres().head(25)
     return render_template('contentFilter.html', genreDf=genreDf, song_index=song_index,
                            columns=columns, reco_songs=reco_songs)
 

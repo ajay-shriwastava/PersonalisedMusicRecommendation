@@ -36,15 +36,15 @@ class ContentFilter:
 
         # Find the indices of 10 songs that have the highest cosine similarity
         top_indices = np.argsort(cosine_similarity)[-n_recommendations - 1:-1][::-1]
-
         # Print artist_name and track_title for songs that are similar to songIdx
 
         print("Here are some recommendations:")
-        print(" ")
-        print(self.genre_df.iloc[top_indices][['artist_name', 'track_title']])
-        return self.genre_df.iloc[top_indices][['artist_name', 'track_title']]
+        resultDf = self.genre_df.iloc[top_indices][['artist_name', 'track_title']]
+        resultDf['cosine_similarity'] = cosine_similarity[top_indices]
+        print(resultDf)
+        return resultDf
 
 
 conFilter = ContentFilter()
 print(conFilter.get_norm_genre_matrix())
-print(conFilter.recommend_songs(songIdx = 6, n_recommendations = 10))
+conFilter.recommend_songs(songIdx = 6, n_recommendations = 10)
