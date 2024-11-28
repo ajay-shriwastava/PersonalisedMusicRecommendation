@@ -54,12 +54,11 @@ def collabFilter(song_index=0):
         colabF = collabFile.CollabFilter()
         cache.set("collabFilter", colabF)
     sel_song = colabF.track_df.iloc[song_index]
-    reco_songs = colabF.track_df.iloc[colabF.cosine_similarity(song_index, 12)[0]]
-    reco_vals = colabF.cosine_similarity(song_index, 12)[1]
+    reco_songs = colabF.track_df.iloc[colabF.cosine_similarity(song_index, 12)]
     track_df = colabF.track_df
     user_df = colabF.user_df
     user_item_df = colabF.user_item_df
-    return render_template('collab_filter.html', sel_song=sel_song, reco_songs=reco_songs, reco_vals=reco_vals,
+    return render_template('collab_filter.html', sel_song=sel_song, reco_songs=reco_songs,
                            track_df=track_df, user_df=user_df, user_item_df=user_item_df)
 
 

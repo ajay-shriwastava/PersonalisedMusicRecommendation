@@ -67,7 +67,6 @@
                 <th>Track Id</th>
                 <th>Artist Name</th>
                 <th>Track Title</th>
-                <th>Cosine Similarity</th>
             </tr>
         </thead>
         <tbody>
@@ -76,7 +75,6 @@
                 <td>{{ index }}</td>
                 <td>{{ row['artist_name'] }}</td>
                 <td>{{ row['track_title'] }}</td>
-                <td>{{ reco_vals[loop.index0]}}</td>
             </tr>
         {% endfor %}
         </tbody>

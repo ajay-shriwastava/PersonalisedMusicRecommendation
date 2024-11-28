@@ -59,9 +59,8 @@ class CollabFilter:
         cs_vector = np.dot(Q_temp, q)
         print(cs_vector)
         # sort cs_vector in ascending order and return the indices
-        top_indices = np.argsort(cs_vector)[-1:0:-1][0:n_recommendations]
-        top_values = cs_vector[top_indices]
-        return (top_indices, top_values)
+        print(np.argsort(cs_vector)[-1:0:-1][0:n_recommendations])
+        return np.argsort(cs_vector)[-1:0:-1][0:n_recommendations]
 
 colabF = CollabFilter()
 song_index = 8
@@ -69,5 +68,5 @@ rank = 4
 
 print(type(colabF.track_df.iloc[song_index]))
 print(colabF.track_df.iloc[song_index])
-print(type(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)[0]]))
-print(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)[0]])
+print(type(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)]))
+print(colabF.track_df.iloc[colabF.cosine_similarity(song_index, rank)])
