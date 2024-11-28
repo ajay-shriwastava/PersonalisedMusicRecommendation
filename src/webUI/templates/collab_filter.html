@@ -48,11 +48,11 @@
     <hr>
     <form class="form-horizontal" method="POST" action="{{url_for('collabFilter')}}" role="form">
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song Index
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Song
         <span class="caret"></span></button>
             <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenu3">
                 {% for song_index in range(0,12) %}
-                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ song_index }}</button>
+                    <button name = "song_index_id" value = "{{ song_index }}" class="dropdown-item text-right " type="submit">{{ track_df.iloc[song_index]['track_title']}}</button>
                 {% endfor %}
             </div>
     </div>
@@ -67,6 +67,7 @@
                 <th>Track Id</th>
                 <th>Artist Name</th>
                 <th>Track Title</th>
+                <th>Cosine Similarity</th>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +76,7 @@
                 <td>{{ index }}</td>
                 <td>{{ row['artist_name'] }}</td>
                 <td>{{ row['track_title'] }}</td>
+                <td>{{ reco_vals[loop.index0]}}</td>
             </tr>
         {% endfor %}
         </tbody>

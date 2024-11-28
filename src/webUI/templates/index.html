@@ -43,7 +43,6 @@
                 <th>Track Id</th>
                 <th>Track Title</th>
                 <th>Artist Name</th>
-                <th>Artist Id</th>
                 <th>Rank</th>
                 <th>Similarity Score</th>
             </tr>
@@ -52,9 +51,12 @@
         {% for index, row in reco_df.iterrows() %}
             <tr>
                 <td>{{ row['itemid'] }}</td>
-                <td>{{ row['track_title'] }}</td>
-                <td>{{ row['artist_name'] }}</td>
-                <td>{{ row['artist_id'] }}</td>
+                <td>{{ row['track_title'].split("--", 1)[0] }}</td>
+                {% if row['track_title'].split("--", 1)|length == 2 %}
+                    <td>{{ row['track_title'].split("--", 1)[1] }}</td>
+                {% else %}
+                    <td> </td>
+                {% endif %}
                 <td>{{ loop.index }}</td>
                 <td>{{'%0.2f'|format(row['similarity_with_Iu']|float)}}</td>
             </tr>
