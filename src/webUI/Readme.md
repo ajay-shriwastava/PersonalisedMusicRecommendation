@@ -14,6 +14,7 @@ and [DB Browser for SQLite](https://sqlitebrowser.org/) is used as SQL Client.
 ##### Set up environment    
 $ Go to project root (e.g. cd ~/workspace/research/PersonalisedMusicRecommendation/src/webUI)    
 $ Activate virtual environment. (e.g. workon iisc)     
+$ pip install -r requirements.txt
 $ export FLASK_APP=app     
 $ export FLASK_ENV=development     
 
