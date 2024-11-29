@@ -54,7 +54,8 @@ def collabFilter(song_index=0):
         colabF = collabFile.CollabFilter()
         cache.set("collabFilter", colabF)
     sel_song = colabF.track_df.iloc[song_index]
-    reco_songs = colabF.track_df.iloc[colabF.cosine_similarity(song_index, 12)]
+    reco_songs = colabF.track_df.iloc[colabF.cosine_similarity(song_index, 4)]
+    reco_songs = reco_songs.sort_values(by='track_id')
     track_df = colabF.track_df
     user_df = colabF.user_df
     user_item_df = colabF.user_item_df
@@ -71,7 +72,6 @@ def contentFilter(song_index=6):
         song_index = request.form['song_index_id']
     if not song_index:
         song_index = 0
-    print("Song index obtained", song_index)
     song_index = int(song_index)
     conFilter = cache.get("conFilter")
     if not conFilter:

@@ -62,8 +62,9 @@ class CollabFilter:
         print(np.argsort(cs_vector)[-1:0:-1][0:n_recommendations])
         return np.argsort(cs_vector)[-1:0:-1][0:n_recommendations]
 
+
 colabF = CollabFilter()
-song_index = 8
+song_index = 0
 rank = 4
 
 print(type(colabF.track_df.iloc[song_index]))
